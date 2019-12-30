@@ -1,6 +1,7 @@
 package openstack
 
 import (
+	"fmt"
 	"github.com/gogf/gf/net/ghttp"
 	"golang-demo/common"
 )
@@ -13,9 +14,11 @@ func Auth(r *ghttp.Request) {
 	if len(token) > 0 {
 		rest = common.Result{true, "当前已登录,无需重复登录!", token}
 	} else {
-		body := `{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"guxing","domain":{"name":"Default"},"password":"123"}}}}}`
+		openstack := common.DbConfig.Openstack
+		body := `{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"%s","domain":{"name":"%s"},"password":"%s"}}}}}`
+		body = fmt.Sprintf(body, openstack.Username, openstack.Domain, openstack.Password)
 		resp, err := ghttp.NewClient().SetContentType("application/json").
-			Post("http://192.168.56.100:5000//v3/auth/tokens", body)
+			Post(openstack.Url+"/v3/auth/tokens", body)
 		if err != nil {
 			rest = common.Result{false, err.Error(), nil}
 		} else {

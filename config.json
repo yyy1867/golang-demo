@@ -1,0 +1,13 @@
+{
+  "zookeeper": {
+    "addrs": [
+      "192.168.56.102:2181"
+    ]
+  },
+  "openstack": {
+    "url": "http://192.168.56.100:5000",
+    "username": "guxing",
+    "password": "123",
+    "domain": "Default"
+  }
+}
