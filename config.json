@@ -9,5 +9,9 @@
     "username": "guxing",
     "password": "123",
     "domain": "Default"
+  },
+  "server": {
+    "host": "192.168.56.1",
+    "port": 8888
   }
 }

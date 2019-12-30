@@ -1,15 +1,18 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/glog"
 	_ "golang-demo/boot"
+	"golang-demo/common"
 )
 
 func main() {
-	addr := "127.0.0.1:8888"
+	addr := fmt.Sprintf("%s:%d", common.DbConfig.Server.Host, common.DbConfig.Server.Port)
+	localAddr := fmt.Sprintf("0.0.0.0:%d", common.DbConfig.Server.Port)
 	server := ghttp.GetServer()
-	server.SetAddr(addr)
+	server.SetAddr(localAddr)
 	// 使用驼峰转换
 	server.SetNameToUriType(ghttp.URI_TYPE_CAMEL)
 	//server.EnableAdmin()

@@ -11,9 +11,15 @@ type OpenstackConfig struct {
 	Domain   string
 }
 
+type ServerConfig struct {
+	Host string
+	Port int
+}
+
 type Config struct {
 	Zookeeper ZookeeperConfig
 	Openstack OpenstackConfig
+	Server    ServerConfig
 }
 
 var DbConfig Config
