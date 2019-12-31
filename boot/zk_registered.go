@@ -2,22 +2,54 @@ package boot
 
 import (
 	"fmt"
+	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/text/gstr"
 	"github.com/samuel/go-zookeeper/zk"
 	"golang-demo/common"
+	"golang-demo/ctrl/api/zookeeper"
+	"runtime"
 	"time"
 )
 
 func init() {
-	client, _, err := zk.Connect(common.DbConfig.Zookeeper.Addrs, time.Second*1000)
-	client.SetLogger(glog.DefaultLogger())
+	client, events, err := zk.Connect(common.DbConfig.Zookeeper.Addrs, 3*time.Second,
+		zk.WithLogger(glog.DefaultLogger()))
 	if err != nil {
 		glog.Error("连接zk失败:%s", err.Error())
 	}
-	registered(client)
+	go eventlistener(events, client)
 	zookeeper.ZkClient = client
-	glog.Info("zk连接初始化成功!")
+}
+
+func eventlistener(events <-chan zk.Event, client *zk.Conn) {
+	count := 0
+	for e := range events {
+		etype := int32(e.Type)
+		estate := int32(e.State)
+		errstr := ""
+		if e.Err != nil {
+			errstr = e.Err.Error()
+		}
+		if e.Type == zk.EventSession && e.State == zk.StateConnecting {
+			count++
+			if count >= common.DbConfig.Zookeeper.MaxConnCount {
+				glog.Error("zk连接次数[%d],未能成功连接,程序即将关闭!", count)
+				client.Close()
+				ghttp.GetServer().Shutdown()
+				runtime.Goexit()
+			}
+			continue
+		} else if e.Type == zk.EventSession && e.State == zk.StateHasSession {
+			count = 0
+			registered(client)
+		}
+		glog.Infof("消息类型:[%d],State:[%d],路径:[%s],异常:[%s],地址:[%s]", etype, estate, e.Path, errstr, e.Server)
+	}
+}
+
+func nodelistener() {
+
 }
 
 func registered(client *zk.Conn) {
@@ -47,4 +79,5 @@ func registered(client *zk.Conn) {
 			}
 		}
 	}
+	glog.Info("zk节点注册成功!")
 }

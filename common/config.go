@@ -1,7 +1,8 @@
 package common
 
 type ZookeeperConfig struct {
-	Addrs []string
+	Addrs        []string
+	MaxConnCount int
 }
 
 type OpenstackConfig struct {
