@@ -12,6 +12,12 @@ type OpenstackConfig struct {
 	Domain   string
 }
 
+type MySqlConfig struct {
+	Url      string
+	Username string
+	Password string
+}
+
 type ServerConfig struct {
 	Host string
 	Port int
@@ -21,6 +27,7 @@ type Config struct {
 	Zookeeper ZookeeperConfig
 	Openstack OpenstackConfig
 	Server    ServerConfig
+	Mysql     MySqlConfig
 }
 
 var DbConfig Config

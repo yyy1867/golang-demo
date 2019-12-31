@@ -5,12 +5,23 @@ import (
 	"github.com/gogf/gf/frame/gmvc"
 	"github.com/samuel/go-zookeeper/zk"
 	"golang-demo/common"
+	"golang-demo/service"
 )
 
 var ZkClient *zk.Conn
+var ServiceFactory service.ServiceFactory
 
 type ZkController struct {
 	gmvc.Controller
+}
+
+func (z *ZkController) UserList() {
+	param := map[string]interface{}{
+		"rows": 2,
+		"page": 2,
+	}
+	request := ServiceFactory.Request(service.CopUser, "/user/list", service.LOAD, nil, param)
+	z.Response.WriteJson(request)
 }
 
 func (z *ZkController) List() {

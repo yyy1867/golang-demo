@@ -8,6 +8,7 @@ import (
 	"github.com/samuel/go-zookeeper/zk"
 	"golang-demo/common"
 	"golang-demo/ctrl/api/zookeeper"
+	"golang-demo/service"
 	"runtime"
 	"time"
 )
@@ -20,6 +21,7 @@ func init() {
 	}
 	go eventlistener(events, client)
 	zookeeper.ZkClient = client
+	zookeeper.ServiceFactory = service.ServiceFactory{Client: client}
 }
 
 func eventlistener(events <-chan zk.Event, client *zk.Conn) {
