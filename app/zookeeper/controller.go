@@ -4,15 +4,13 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/frame/gmvc"
 	"github.com/samuel/go-zookeeper/zk"
-	"golang-demo/common"
-	"golang-demo/service"
+	"golang-demo/common/web"
 )
-
-var ZkClient *zk.Conn
-var ServiceFactory service.ServiceFactory
 
 type ZkController struct {
 	gmvc.Controller
+	client         *zk.Conn
+	serviceFactory *ServiceFactory
 }
 
 func (z *ZkController) UserList() {
@@ -20,17 +18,17 @@ func (z *ZkController) UserList() {
 		"rows": 2,
 		"page": 2,
 	}
-	request := ServiceFactory.Request(service.CopUser, "/user/list", service.LOAD, nil, param)
+	request := z.serviceFactory.Request(CopUser, "/user/list", LOAD, nil, param)
 	z.Response.WriteJson(request)
 }
 
 func (z *ZkController) List() {
-	var rst common.Result
-	children, stat, err := ZkClient.Children("/")
+	var rst web.Result
+	children, stat, err := z.client.Children("/")
 	if err != nil {
-		rst = common.Result{false, "查询失败:" + err.Error(), nil}
+		rst = web.Result{false, "查询失败:" + err.Error(), nil}
 	} else {
-		rst = common.Result{true, "查询成功!", g.Map{
+		rst = web.Result{true, "查询成功!", g.Map{
 			"stat":     stat,
 			"children": children,
 		}}
@@ -40,12 +38,12 @@ func (z *ZkController) List() {
 
 func (z *ZkController) Tree() {
 	rmap := map[string]interface{}{}
-	zktree("/", &rmap)
-	z.Response.WriteJson(common.Result{true, "查询成功!", rmap})
+	zktree("/", &rmap, z)
+	z.Response.WriteJson(web.Result{true, "查询成功!", rmap})
 }
 
-func zktree(path string, parent *map[string]interface{}) {
-	children, stat, err := ZkClient.Children(path)
+func zktree(path string, parent *map[string]interface{}, z *ZkController) {
+	children, stat, err := z.client.Children(path)
 	childs := make([]map[string]interface{}, len(children))
 	*parent = g.Map{
 		"path":   path,
@@ -58,7 +56,7 @@ func zktree(path string, parent *map[string]interface{}) {
 			path += "/"
 		}
 		for i := range childs {
-			zktree(path+children[i], &childs[i])
+			zktree(path+children[i], &childs[i], z)
 		}
 	}
 }

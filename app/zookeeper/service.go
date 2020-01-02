@@ -1,4 +1,4 @@
-package service
+package zookeeper
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/samuel/go-zookeeper/zk"
-	"golang-demo/common"
+	"golang-demo/common/web"
 )
 
 const (
@@ -50,10 +50,10 @@ func (s *ServiceFactory) ListServices(service BoCloudService) []string {
 }
 
 func (s *ServiceFactory) Request(service BoCloudService, uri string, method BoCloudMethod,
-	header map[string]string, param map[string]interface{}) common.BsmResult {
+	header map[string]string, param map[string]interface{}) web.BsmResult {
 	ips := s.ListServices(service)
 	if len(ips) == 0 {
-		return common.BsmResult{false, "远程服务未找到!", nil, "", ""}
+		return web.BsmResult{false, "远程服务未找到!", nil, "", ""}
 	}
 	i := gtime.Timestamp() % int64(len(ips))
 	hurl := "http://" + ips[i] + uri
@@ -68,10 +68,10 @@ func (s *ServiceFactory) Request(service BoCloudService, uri string, method BoCl
 		param = nil
 	}
 	content := client.RequestContent(mtd, hurl, param)
-	var result common.BsmResult
+	var result web.BsmResult
 	err := gjson.DecodeTo(content, &result)
 	if err != nil {
-		result = common.BsmResult{true, "格式转换失败:" + err.Error(), content, "", ""}
+		result = web.BsmResult{true, "格式转换失败:" + err.Error(), content, "", ""}
 	}
 	return result
 }

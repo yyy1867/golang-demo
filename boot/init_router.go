@@ -2,8 +2,8 @@ package boot
 
 import (
 	"github.com/gogf/gf/net/ghttp"
-	"golang-demo/ctrl/api/openstack"
-	"golang-demo/ctrl/api/zookeeper"
+	"golang-demo/app/openstack"
+	"golang-demo/app/zookeeper"
 )
 
 func init() {
@@ -20,5 +20,6 @@ func initOpenstackRouter(server *ghttp.Server) {
 
 func initZookeeperRouter(server *ghttp.Server) {
 	zk := new(zookeeper.ZkController)
+	server.SetNameToUriType(ghttp.URI_TYPE_CAMEL)
 	server.BindController("/zk/{.method}", zk)
 }

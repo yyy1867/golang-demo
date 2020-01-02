@@ -1,6 +1,4 @@
-package common
-
-type H map[string]interface{}
+package web
 
 type Result struct {
 	Success bool

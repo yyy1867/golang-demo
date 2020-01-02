@@ -1,4 +1,4 @@
-package common
+package config
 
 type ZookeeperConfig struct {
 	Addrs        []string
@@ -13,9 +13,11 @@ type OpenstackConfig struct {
 }
 
 type MySqlConfig struct {
-	Url      string
+	Host     string
+	Port     int
 	Username string
 	Password string
+	Database string
 }
 
 type ServerConfig struct {
@@ -29,5 +31,3 @@ type Config struct {
 	Server    ServerConfig
 	Mysql     MySqlConfig
 }
-
-var DbConfig Config
