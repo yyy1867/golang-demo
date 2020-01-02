@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func init() {
+func InitLog() {
 	logger := glog.DefaultLogger()
 	logger.SetLevel(glog.LEVEL_ALL)
 	logger.SetPath("log")

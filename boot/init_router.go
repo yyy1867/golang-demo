@@ -6,7 +6,7 @@ import (
 	"golang-demo/app/zookeeper"
 )
 
-func init() {
+func InitRouter() {
 	server := ghttp.GetServer()
 	initOpenstackRouter(server)
 	initZookeeperRouter(server)
@@ -19,7 +19,7 @@ func initOpenstackRouter(server *ghttp.Server) {
 }
 
 func initZookeeperRouter(server *ghttp.Server) {
-	zk := new(zookeeper.ZkController)
+	zkctrl := new(zookeeper.ZkController)
 	server.SetNameToUriType(ghttp.URI_TYPE_CAMEL)
-	server.BindController("/zk/{.method}", zk)
+	server.BindController("/zk/{.method}", zkctrl)
 }

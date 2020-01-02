@@ -15,12 +15,13 @@ var default_conn *zk.Conn
 
 func InitDefaultConnn() {
 	cfg := config.Default().Zookeeper
-	default_conn, events, err := zk.Connect(cfg.Addrs, 3*time.Second,
+	conn, events, err := zk.Connect(cfg.Addrs, 3*time.Second,
 		zk.WithLogger(glog.DefaultLogger()))
 	if err != nil {
 		glog.Error("连接zk失败:%s", err.Error())
 	}
-	go eventlistener(events, default_conn)
+	default_conn = conn
+	go eventlistener(events, conn)
 }
 
 func DefaultConn() *zk.Conn {

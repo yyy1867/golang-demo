@@ -3,14 +3,22 @@ package zookeeper
 import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/frame/gmvc"
+	"github.com/gogf/gf/net/ghttp"
 	"github.com/samuel/go-zookeeper/zk"
 	"golang-demo/common/web"
+	"golang-demo/common/zookeeper"
 )
 
 type ZkController struct {
 	gmvc.Controller
 	client         *zk.Conn
 	serviceFactory *ServiceFactory
+}
+
+func (c *ZkController) Init(r *ghttp.Request) {
+	c.Controller.Init(r)
+	c.client = zookeeper.DefaultConn()
+	c.serviceFactory = &ServiceFactory{Client: zookeeper.DefaultConn()}
 }
 
 func (z *ZkController) UserList() {
