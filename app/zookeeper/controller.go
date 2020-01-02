@@ -21,6 +21,10 @@ func (c *ZkController) Init(r *ghttp.Request) {
 	c.serviceFactory = &ServiceFactory{Client: zookeeper.DefaultConn()}
 }
 
+func (z *ZkController) That() {
+	z.Response.Writef("%p", z)
+}
+
 func (z *ZkController) UserList() {
 	param := map[string]interface{}{
 		"rows": 2,
