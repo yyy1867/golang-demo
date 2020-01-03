@@ -14,4 +14,6 @@ func init() {
 	InitLog()
 	// 配置路由
 	InitRouter()
+	// 配置数据库
+	InitDatabase()
 }
