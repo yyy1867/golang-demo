@@ -20,6 +20,13 @@ type PageParam struct {
 	Param map[string]interface{} `json:"param"`
 }
 
+type GridBean struct {
+	Page  int         `json:"page"`
+	Pages int         `json:"pages"`
+	Total int         `json:"total"`
+	Rows  interface{} `json:"rows"`
+}
+
 func DefaultPageParam(p *PageParam) {
 	if &p == nil {
 		p = new(PageParam)
