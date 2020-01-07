@@ -25,9 +25,15 @@ type ServerConfig struct {
 	Port int
 }
 
+type RedisConfig struct {
+	Addrs    []string
+	Password string
+}
+
 type Config struct {
 	Zookeeper ZookeeperConfig
 	Openstack OpenstackConfig
 	Server    ServerConfig
 	Mysql     MySqlConfig
+	Redis     RedisConfig
 }

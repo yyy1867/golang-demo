@@ -16,4 +16,6 @@ func init() {
 	InitRouter()
 	// 配置数据库
 	InitDatabase()
+	// 配置session
+	InitSessionConfig()
 }

@@ -32,3 +32,19 @@ func (m *MyDeploy) List(r *ghttp.Request) {
 	}
 	r.Response.WriteJson(rst)
 }
+
+func (m *MyDeploy) Show(r *ghttp.Request) {
+	test := r.Session.GetString("test")
+	r.Response.Write(test)
+}
+
+func (m *MyDeploy) Set(r *ghttp.Request) {
+	pmap := r.GetMap()
+	if pmap["test"] == nil {
+		pmap["test"] = "默认值"
+	}
+	for k, v := range pmap {
+		r.Session.Set(k, v)
+	}
+	r.Response.WriteJsonExit(web.Result{true, "写入会话成功!", pmap})
+}
