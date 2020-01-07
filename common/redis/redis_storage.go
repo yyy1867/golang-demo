@@ -31,7 +31,7 @@ func NewStorageRedis(redis redis.UniversalClient, prefix ...string) *RedisStorag
 	}
 	// 批量更新TTL
 	gtimer.AddSingleton(gsession.DefaultStorageRedisLoopInterval, func() {
-		glog.Info("redis -> 更新SESSION TTL开始!")
+		glog.Debug("redis -> 更新SESSION TTL开始!")
 		var id string
 		var err error
 		var ttlSeconds int
