@@ -1,7 +1,7 @@
 {
   "zookeeper": {
     "addrs": [
-      "172.16.15.5:2181"
+      "192.168.56.101:2181"
     ],
     "maxConnCount": 10
   },
@@ -16,15 +16,15 @@
     "port": 8888
   },
   "mysql": {
-    "host": "172.16.15.5",
-    "port": 33306,
+    "host": "192.168.56.101",
+    "port": 3306,
     "username": "root",
-    "password": "000000",
+    "password": "123456",
     "database": "cop2deployvue"
   },
   "redis": {
     "addrs": [
-      "192.168.56.102:6379"
+      "192.168.56.101:6379"
     ],
     "password": "258123"
   }

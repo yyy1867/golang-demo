@@ -8,7 +8,7 @@ import (
 
 func InitLog() {
 	logger := glog.DefaultLogger()
-	logger.SetLevel(glog.LEVEL_ALL)
+	logger.SetLevel(glog.LEVEL_INFO)
 	logger.SetPath("log")
 	logger.SetStdoutPrint(true)
 	bindRouteLogger()

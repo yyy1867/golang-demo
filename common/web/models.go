@@ -21,10 +21,10 @@ type PageParam struct {
 }
 
 type GridBean struct {
-	Page  int         `json:"page"`
-	Pages int         `json:"pages"`
-	Total int         `json:"total"`
-	Rows  interface{} `json:"rows"`
+	Page  int           `json:"page"`
+	Pages int           `json:"pages"`
+	Total int           `json:"total"`
+	Rows  []interface{} `json:"rows"`
 }
 
 func DefaultPageParam(p *PageParam) {
