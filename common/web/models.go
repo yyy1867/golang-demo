@@ -27,6 +27,10 @@ type GridBean struct {
 	Rows  []interface{} `json:"rows"`
 }
 
+func ErrorResult(msg string) Result {
+	return Result{false, msg, nil}
+}
+
 func DefaultPageParam(p *PageParam) {
 	if &p == nil {
 		p = new(PageParam)

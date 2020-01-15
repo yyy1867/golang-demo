@@ -2,7 +2,10 @@ package openstack
 
 import (
 	"fmt"
+	"github.com/gogf/gf/encoding/gjson"
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/gophercloud/gophercloud"
+	"github.com/gophercloud/gophercloud/openstack"
 	"golang-demo/common/web"
 	"golang-demo/config"
 )
@@ -31,4 +34,18 @@ func Auth(r *ghttp.Request) {
 		}
 	}
 	r.Response.WriteJson(rest)
+}
+
+func ServerList(r *ghttp.Request) {
+	provider, err := openstack.AuthenticatedClient(gophercloud.AuthOptions{
+		IdentityEndpoint: "http://192.168.56.100:5000",
+		Username:         "guxing",
+		Password:         "123",
+		DomainName:       "Default",
+	})
+	if err != nil {
+		r.Response.WriteJsonExit(web.ErrorResult(err.Error()))
+	}
+	j, _ := gjson.DecodeToJson(provider, false)
+	r.Response.WriteJsonExit(web.Result{true, "验证成功!", j})
 }

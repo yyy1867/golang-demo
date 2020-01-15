@@ -17,6 +17,7 @@ func InitRouter() {
 func initOpenstackRouter(server *ghttp.Server) {
 	server.Group("open", func(group *ghttp.RouterGroup) {
 		group.GET("auth", openstack.Auth)
+		group.GET("server-list", openstack.ServerList)
 	})
 }
 

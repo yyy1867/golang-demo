@@ -65,6 +65,7 @@ func (m *MyDeploy) Glist(r *ghttp.Request) {
 	r.Response.WriteJson(web.Result{true, "list操作测试!", list})
 }
 
+// 包装为分页对象的方法
 func warpGridBean(data []interface{}, total int, page web.PageParam) web.GridBean {
 	return web.GridBean{
 		Page:  page.Page,
