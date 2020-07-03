@@ -8,7 +8,7 @@ import (
 
 var db_config Config
 
-var default_dirs = [...]string{"config.json", "config/config.json"}
+var default_dirs = [...]string{"config.yaml", "config/config.yaml"}
 
 func InitDefaultConfig() {
 	is_load := false

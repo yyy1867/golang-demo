@@ -1,0 +1,19 @@
+zookeeper:
+  addrs: ["192.168.99.3:2181"]
+  maxConnCount: 10
+openstack:
+  url: "http://192.168.100.50:5000"
+  username: "admin"
+  password: "123456"
+  domain: "Default"
+server:
+  host: "127.0.0.1"
+  port: 8888
+mysql:
+  host: "192.168.99.3"
+  port: 3306
+  username: "root"
+  password: "123456"
+  database: "cop2deployvue"
+redis:
+  addrs: ["192.168.99.3:6379"]
